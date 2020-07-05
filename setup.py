@@ -2,14 +2,13 @@
 ## (c) Copyright Si Dunford, 2019
 
 ## Need to:
-# Create folders /opt/miot and /etc/opt/miot
-# Create empty /etc/opt/miot/config.ini
+# Create folder ~/miot
+# Create basic /etc/miot.cfg
 # copy miot.sh as "miot" into the path somewhere, or a link to it.
 # chmod 775 miot file
 # Download installer.ini
 # Execute "miot update" 
 #   Which will:
-#       Download miot-core.py
 #       Add [MQTT] broker=127.0.0.1, port=1883 to config.ini
 
 # Later updates will also include a WebGUI, but for now that has not 

@@ -1,2 +1,4 @@
-from miot import mqtt,config
+# PLACEHOLDER
+
+print( "RUNNING MIOT PACKAGE INIT" )
 

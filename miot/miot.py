@@ -1,4 +1,3 @@
-
 # Modular Internet of Things, Core functionality
 #
 # FILE:     miot.py
@@ -13,7 +12,8 @@
 # 25 MAR 2019  0.1.1  Revised event handlers
 # 26 MAR 2019  0.1.2  Bug fixes / Removed some debug output
 #              0.1.3  Added config.getfloat(), config.set() and config.write()
-# 27 MAR 2019  1751   New version control, move from sandbox to miot
+# 27 MAR 2019  0.2.1  New version control, move from sandbox to miot
+# 05 JUL 2020  0.3.1  Revision 3
 
 # THIRD PARTY MODULES
 import paho.mqtt.client as paho_mqtt
