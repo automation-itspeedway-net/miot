@@ -1,0 +1,123 @@
+#!/bin/bash
+
+# MODULAR INTERNET OF THINGS
+# (c) Copyright Si Dunford, Jun 2020
+# Ver: 0.1
+# https://github.com/automation-itspeedway-net/miot
+
+echo "MODULAR IoT"
+echo "V0.1"
+
+show_help()
+{
+    echo "miot --help|-h"
+    echo "miot setup"
+    echo "miot install <module>"
+    echo "miot remove|uninstall <module>"
+    echo "miot enable <module>"
+    echo "miot disable <module>"
+    echo "miot start <module>"
+    echo "miot stop <module>"
+    echo "miot restart <module>"
+    echo "miot status <module>"
+}
+
+
+call_cli()
+{
+    if [ -e ~/miot/$2/cli.sh ]; then
+        ~/miot/$2/cli.sh $2
+    else
+        echo "Invalid command"
+    fi
+}
+
+call_repl()
+{
+    if [ ! -e ~/miot/venv/bin/miot_repl ]; then
+        echo "'miot setup' has not been run: Cannot start REPL"
+    else    
+        cd ~/miot
+        source ./venv/bin/activate
+        shift
+        miot_repl $@
+    fi
+}
+
+call_install()
+{
+    if [ ! -d ~/miot/ ]; then
+        mkdir ~/miot
+    fi
+    if [ ! "$2" = "" ]; then
+        echo "Installing $2"
+        cd ~/miot
+        #git clone https://github.com/automation-itspeedway-net/$2.git
+    else
+        echo "Module not specified"
+    fi
+}
+
+do_remove()
+{
+    if [ -d ~/miot/$2 ]; then
+        if [ -e ~/miot/$2/cli.sh ]; then
+            chmod +x ~/miot/$2/cli.sh
+            ~/miot/$2/cli.sh remove
+        else
+            sudo systemctl stop $2
+            sudo systemctl disable $2
+        fi
+        rm -r "~/miot/$2/"
+    fi
+}
+
+do_setup()
+{
+    if [ -d ~/miot ]; then
+        echo "- Folder exists"
+    else
+        echo "- Creating folders"
+        mkdir ~/miot
+    fi
+    cd ~/miot
+    if [ -e ~/miot/venv/bin/python ]; then
+        echo "- Virtual environment exists"
+    else
+        echo "- Building virtual environment"
+        python3 -m venv venv
+    fi
+    source ./venv/bin/activate
+    echo "- Installing core components"
+    python -m pip install miot-core
+}
+
+while [ "$1" != "" ]; do
+    case $1 in
+        --help | -h )
+            show_help
+            exit
+            ;;
+        disable | enable | start | stop | restart | status )    
+            call_cli $2
+            exit
+            ;;
+        install )
+            do_install
+            exit
+            ;;
+        remove | uninstall )
+            do_remove
+            exit
+            ;;
+        setup )
+            do_setup
+            exit
+            ;;
+        * )
+            call_repl
+            exit
+            ;;
+    esac
+    shift
+done
