@@ -2,10 +2,10 @@
 
 # MODULAR INTERNET OF THINGS
 # (c) Copyright Si Dunford, Jun 2020
-VERSION = "0.2.1"
+VERSION=0.2.1
 # https://github.com/automation-itspeedway-net/miot
 
-echo "MODULAR IoT"
+echo "MODULAR IoT / CLI"
 echo "VER: $VERSION"
 
 show_help()

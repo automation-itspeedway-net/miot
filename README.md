@@ -2,7 +2,7 @@
 Modular Internet of Things
 
 STATUS:  PRE-ALPHA  ** UNSTABLE DO NOT INSTALL **
-VERSION: Ver: 0.1.1
+VERSION: Ver: 0.1
     - WARNING - Unstable development version
     - Not feature complete
     - Under development

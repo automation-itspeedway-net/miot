@@ -1,0 +1,80 @@
+#!/bin/bash
+
+# MODULAR INTERNET OF THINGS / SETUP
+# (c) Copyright Si Dunford, Jun 2020
+VERSION=0.0.1
+
+# https://github.com/automation-itspeedway-net/miot
+
+echo "MODULAR IoT / SETUP"
+echo "VER: $VERSION"
+
+go_remove()
+{
+    echo "- REMOVE"
+    rm $HOME/bin/miot
+}
+
+go_setup()
+{
+    if [ ! -d $HOME/miot/ ]; then
+        echo "- Creating $HOME/miot"
+        mkdir $HOME/miot
+    fi
+    pushd ~/miot
+    if [ ! -d ~/bin/ ]; then
+        echo "- Creating ~/bin"
+        mkdir $HOME/bin
+    fi
+    cp ./miot $HOME/bin/
+    if [ ":$PATH:" != *":$HOME/bin:"* ]; then
+    
+        # CHECK WE HAVE NOT ALREADY DONE THIS
+        
+        if grep -q "PATH=$HOME/bin:" $HOME/.bashrc; then
+            echo "- Path configured, but not active in this session"
+            echo
+            echo "** Please close this window and re-open a new terminal **"
+        else
+            echo "- Adding $HOME/bin to PATH"
+            echo export PATH="$HOME/bin:$PATH">>$HOME/.bashrc
+            echo
+            echo "** Please close this window and re-open a new terminal **"
+        fi
+        echo
+    fi
+    popd
+}
+
+go_update()
+{
+    echo "- UPDATE"
+    pwd
+    pushd ~
+    git clone https://github.com/automation-itspeedway-net/miot.git
+    go_setup
+    popd
+}
+
+#while [ "$1" != "" ]; do
+    case $1 in
+        setup | install )
+            go_setup
+            exit
+            ;;
+        remove | uninstall )
+            go_remove
+            exit
+            ;;
+        update )
+            go_update
+            exit
+            ;;
+        * )
+            go_setup
+            exit
+            ;;
+    esac
+    shift
+#done
+
