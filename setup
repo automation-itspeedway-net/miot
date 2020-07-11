@@ -46,15 +46,16 @@ go_setup()
     popd
 }
 
-go_update()
-{
-    echo "- UPDATE"
-    pwd
-    pushd ~
-    git clone https://github.com/automation-itspeedway-net/miot.git
-    go_setup
-    popd
-}
+#go_update()
+#{
+#    if [ -d $HOME/miot/ ]; then
+#        pushd ~
+#        cd ~/miot
+#        git pull
+#        go_setup
+#        popd
+#    fi
+#}
 
 #while [ "$1" != "" ]; do
     case $1 in
@@ -66,10 +67,10 @@ go_update()
             go_remove
             exit
             ;;
-        update )
-            go_update
-            exit
-            ;;
+        #update )
+        #    go_update
+        #    exit
+        #    ;;
         * )
             go_setup
             exit
