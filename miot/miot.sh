@@ -2,15 +2,15 @@
 
 # MODULAR INTERNET OF THINGS
 # (c) Copyright Si Dunford, Jun 2020
-# Ver: 0.1
+VERSION = "0.2.1"
 # https://github.com/automation-itspeedway-net/miot
 
 echo "MODULAR IoT"
-echo "V0.1"
+echo "VER: $VERSION"
 
 show_help()
 {
-    echo "miot --help|-h"
+    echo "miot --help|-h|/?"
     echo "miot setup"
     echo "miot install <module>"
     echo "miot remove|uninstall <module>"
@@ -23,28 +23,26 @@ show_help()
 }
 
 
-call_cli()
+go_systemctl()
 {
-    if [ -e ~/miot/$2/cli.sh ]; then
-        ~/miot/$2/cli.sh $2
-    else
-        echo "Invalid command"
-    fi
+    sudo systemctl $1 miot_$2
 }
 
-call_repl()
+go_repl()
 {
-    if [ ! -e ~/miot/venv/bin/miot_repl ]; then
-        echo "'miot setup' has not been run: Cannot start REPL"
+    if [ ! -e ~/miot/venv/bin/miotrepl ]; then
+        echo "Unknown command: $1"
+        echo "- REPL has not been installed."
+        echo "- Run 'miot setup' to install"
     else    
         cd ~/miot
         source ./venv/bin/activate
         shift
-        miot_repl $@
+        miotrepl $@
     fi
 }
 
-call_install()
+go_install()
 {
     if [ ! -d ~/miot/ ]; then
         mkdir ~/miot
@@ -52,27 +50,29 @@ call_install()
     if [ ! "$2" = "" ]; then
         echo "Installing $2"
         cd ~/miot
-        #git clone https://github.com/automation-itspeedway-net/$2.git
+        if ! git clone https://github.com/automation-itspeedway-net/miot_$2.git
+        then
+            echo >&2 "Failed to install"
+            exit 1
+        fi
+        chmod u+rwx miot_$2/miot_$2.service
+        sudo cp miot_$2/miot_$2.service /etc/systemd/system/
     else
         echo "Module not specified"
     fi
 }
 
-do_remove()
+go_remove()
 {
-    if [ -d ~/miot/$2 ]; then
-        if [ -e ~/miot/$2/cli.sh ]; then
-            chmod +x ~/miot/$2/cli.sh
-            ~/miot/$2/cli.sh remove
-        else
-            sudo systemctl stop $2
-            sudo systemctl disable $2
-        fi
-        rm -r "~/miot/$2/"
+    if [ -d ~/miot/miot_$2 ]; then
+        sudo systemctl stop miot_$2
+        sudo systemctl disable miot_$2
+        sudo rm /etc/systemd/system/miot_$2.service
+        rm -r "~/miot/miot_$2/"
     fi
 }
 
-do_setup()
+go_setup()
 {
     if [ -d ~/miot ]; then
         echo "- Folder exists"
@@ -89,33 +89,34 @@ do_setup()
     fi
     source ./venv/bin/activate
     echo "- Installing core components"
-    python -m pip install miot-core
+    python -m pip install --upgrade miot
+    echo "- Done"
 }
 
 while [ "$1" != "" ]; do
     case $1 in
-        --help | -h )
+        --help | -h | /? )
             show_help
             exit
             ;;
-        disable | enable | start | stop | restart | status )    
-            call_cli $2
+        disable | enable | start | stop | restart | reload | status )    
+            go_systemctl
             exit
             ;;
         install )
-            do_install
+            go_install
             exit
             ;;
         remove | uninstall )
-            do_remove
+            go_remove
             exit
             ;;
         setup )
-            do_setup
+            go_setup
             exit
             ;;
         * )
-            call_repl
+            go_repl
             exit
             ;;
     esac
