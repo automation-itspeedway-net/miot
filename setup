@@ -2,7 +2,7 @@
 
 # MODULAR INTERNET OF THINGS / SETUP
 # (c) Copyright Si Dunford, Jun 2020
-VERSION=0.0.1
+VERSION=0.1.1
 
 # https://github.com/automation-itspeedway-net/miot
 
@@ -21,7 +21,7 @@ go_setup()
         echo "- Creating $HOME/miot"
         mkdir $HOME/miot
     fi
-    pushd ~/miot
+    pushd ~/miot >/dev/null
     if [ ! -d ~/bin/ ]; then
         echo "- Creating ~/bin"
         mkdir $HOME/bin
@@ -43,17 +43,26 @@ go_setup()
         fi
         echo
     fi
-    popd
+    if [ -e $HOME/miot/venv/bin/python ]; then
+        echo "- Virtual environment exists"
+    else
+        echo "- Building virtual environment"
+        python3 -m venv venv
+    fi
+    source ./venv/bin/activate
+    echo "- Installing core components"
+    python -m pip install --upgrade miot
+    popd >/dev/null
 }
 
 #go_update()
 #{
 #    if [ -d $HOME/miot/ ]; then
-#        pushd ~
+#        pushd ~ >/dev/null
 #        cd ~/miot
 #        git pull
 #        go_setup
-#        popd
+#        popd >/dev/null
 #    fi
 #}
 

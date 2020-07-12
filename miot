@@ -2,24 +2,25 @@
 
 # MODULAR INTERNET OF THINGS
 # (c) Copyright Si Dunford, Jun 2020
-VERSION=0.2.1
+VERSION=0.1.2
 # https://github.com/automation-itspeedway-net/miot
 
 echo "MODULAR IoT / CLI"
 echo "VER: $VERSION"
+echo
 
 show_help()
 {
-    echo "miot --help|-h|/?"
-    echo "miot setup"
-    echo "miot install <module>"
-    echo "miot remove|uninstall <module>"
-    echo "miot enable <module>"
-    echo "miot disable <module>"
-    echo "miot start <module>"
-    echo "miot stop <module>"
-    echo "miot restart <module>"
-    echo "miot status <module>"
+    echo "  miot --help|-h|/?"
+    #echo "  miot setup"
+    echo "  miot install <module>"
+    echo "  miot remove|uninstall <module>"
+    echo "  miot enable <module>"
+    echo "  miot disable <module>"
+    echo "  miot start <module>"
+    echo "  miot stop <module>"
+    echo "  miot restart <module>"
+    echo "  miot status <module>"
 }
 
 
@@ -33,7 +34,7 @@ go_repl()
     if [ ! -e ~/miot/venv/bin/miotrepl ]; then
         echo "Unknown command: $1"
         echo "- REPL has not been installed."
-        echo "- Run 'miot setup' to install"
+        echo "- Please run '~/miot/setup'"
     else    
         cd ~/miot
         source ./venv/bin/activate
@@ -72,26 +73,26 @@ go_remove()
     fi
 }
 
-go_setup()
-{
-    if [ -d ~/miot ]; then
-        echo "- Folder exists"
-    else
-        echo "- Creating folders"
-        mkdir ~/miot
-    fi
-    cd ~/miot
-    if [ -e ~/miot/venv/bin/python ]; then
-        echo "- Virtual environment exists"
-    else
-        echo "- Building virtual environment"
-        python3 -m venv venv
-    fi
-    source ./venv/bin/activate
-    echo "- Installing core components"
-    python -m pip install --upgrade miot
-    echo "- Done"
-}
+#go_setup()
+#{
+#    if [ -d ~/miot ]; then
+#        echo "- Folder exists"
+#    else
+#        echo "- Creating folders"
+#        mkdir ~/miot
+#    fi
+#    cd ~/miot
+#    if [ -e ~/miot/venv/bin/python ]; then
+#        echo "- Virtual environment exists"
+#    else
+#        echo "- Building virtual environment"
+#        python3 -m venv venv
+#    fi
+#    source ./venv/bin/activate
+#    echo "- Installing core components"
+#    python -m pip install --upgrade miot
+#    echo "- Done"
+#}
 
 while [ "$1" != "" ]; do
     case $1 in
@@ -111,10 +112,10 @@ while [ "$1" != "" ]; do
             go_remove
             exit
             ;;
-        setup )
-            go_setup
-            exit
-            ;;
+        #setup )
+        #    go_setup
+        #    exit
+        #    ;;
         * )
             go_repl
             exit
