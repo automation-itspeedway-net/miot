@@ -2,11 +2,35 @@
 Modular Internet of Things
 
 STATUS:  PRE-ALPHA  ** UNSTABLE DO NOT INSTALL **
-VERSION: Ver: 0.2.0
+
+VERSION: 0.2.1
     - WARNING - Unstable development version
     - Not feature complete
     - Under development
     - Not ready for internal testing
+
+A Pre-Alpha release:
+* Is still under development and considered unstable
+* May have had limited or no internal testing.
+* May not be feature complete
+* May have features that are partially complete or not working. 
+* May have known or unknown bugs
+* May operate in an unexpected way. 
+* May contain output debugging data to logs or screen.
+* Is NOT supported: Use at your own risk.
+
+Please do not raise tickets for bugs found in this release.
+
+# INFORMATION
+
+This is the command line control shell for all modules.
+
+# FEATURES:
+
+* No manual editing of config files.
+* Configure all MIoT modules from one simple shell
+* install/uninstall other modules
+* start/stop and get status of installed modules
 
 # PLATFORMS
 
@@ -34,6 +58,7 @@ VERSION: Ver: 0.2.0
     setup
     
 # CONFIGURE MQTT SERVER
+
 This step is only required if you are installing MIOT on a different server than your MQTT broker or if you are using authentication (Which you should be).
 
     miot set mqtt.host 192.168.1.1

@@ -2,7 +2,7 @@
 
 # MODULAR INTERNET OF THINGS
 # (c) Copyright Si Dunford, Jun 2020
-VERSION=0.2.0
+VERSION=0.2.1
 # https://github.com/automation-itspeedway-net/miot
 
 echo "MODULAR IoT / CLI"
@@ -32,7 +32,7 @@ go_systemctl()
 go_repl()
 {
     if [ ! -e ~/miot/venv/bin/miotrepl ]; then
-        echo "Unknown command: $1"
+        #echo "Unknown command: $1"
         echo "- REPL has not been installed."
         echo "- Please run '~/miot/setup'"
     else    
@@ -93,7 +93,10 @@ go_remove()
 #    echo "- Done"
 #}
 
-while [ "$1" != "" ]; do
+if [ $# -eq 0]; then
+    go_repl 
+else
+#while [ "$1" != "" ]; do
     case $1 in
         --help | -h | /? )
             show_help
@@ -121,4 +124,5 @@ while [ "$1" != "" ]; do
             ;;
     esac
     shift
-done
+#done
+fi
