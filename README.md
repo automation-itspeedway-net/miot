@@ -55,7 +55,7 @@ This is the command line control shell for all modules.
 
     cd ~/miot
     git pull
-    setup
+    ./setup
     
 # CONFIGURE MQTT SERVER
 

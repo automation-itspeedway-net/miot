@@ -2,16 +2,17 @@
 
 # MODULAR INTERNET OF THINGS
 # (c) Copyright Si Dunford, Jun 2020
-VERSION=0.2.1
+VERSION=0.2.3
 # https://github.com/automation-itspeedway-net/miot
 
 echo "MODULAR IoT / CLI"
-echo "VER: $VERSION"
-echo
+echo "VER:  $VERSION"
+#echo
 
 show_help()
 {
-    echo "  miot --help|-h|/?"
+    echo
+    echo "  miot help|--help|-h|/?"
     #echo "  miot setup"
     echo "  miot install <module>"
     echo "  miot remove|uninstall <module>"
@@ -26,6 +27,7 @@ show_help()
 
 go_systemctl()
 {
+    echo
     sudo systemctl $1 miot_$2
 }
 
@@ -33,7 +35,8 @@ go_repl()
 {
     if [ ! -e ~/miot/venv/bin/miotrepl ]; then
         #echo "Unknown command: $1"
-        echo "- REPL has not been installed."
+        echo "REPL: Not installed."
+        echo
         echo "- Please run '~/miot/setup'"
     else    
         cd ~/miot
@@ -44,6 +47,7 @@ go_repl()
 
 go_install()
 {
+    echo
     if [ ! -d ~/miot/ ]; then
         mkdir ~/miot
     fi
@@ -64,6 +68,7 @@ go_install()
 
 go_remove()
 {
+    echo
     if [ -d ~/miot/miot_$2 ]; then
         sudo systemctl stop miot_$2
         sudo systemctl disable miot_$2
@@ -74,6 +79,7 @@ go_remove()
 
 #go_setup()
 #{
+#    echo
 #    if [ -d ~/miot ]; then
 #        echo "- Folder exists"
 #    else
@@ -93,12 +99,12 @@ go_remove()
 #    echo "- Done"
 #}
 
-if [ $# -eq 0]; then
+if [ $# -eq 0 ]; then
     go_repl 
 else
 #while [ "$1" != "" ]; do
     case $1 in
-        --help | -h | /? )
+        help | --help | -h | /? )
             show_help
             exit
             ;;
@@ -115,6 +121,7 @@ else
             exit
             ;;
         #setup )
+        #    show_header
         #    go_setup
         #    exit
         #    ;;

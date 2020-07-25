@@ -25,3 +25,7 @@ DATE         VERSION  STATUS
     - Bug fixes
 18 JUL 2020  0.2.1    PRE-ALPHA
     - Fixed bug calling repl
+25 JUL 2020  0.2.2
+    - Bug fixes
+25 JUL 2020  0.2.3
+    - Updated header display to align REPL version.
